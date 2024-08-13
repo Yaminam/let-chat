@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LetChat</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .chats {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .msg {
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 10px 0;
+        }
+
+        .chat-info {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h3>All Chats!</h3>
+    <form action="/chats/new" method="get">
+        <button>New Chat</button>
+    </form>
+    <% for (let chat of chats) { %>
+    <div class="chats">
+        <p>From: <b><%= chat.from %></b></p>
+        <div class="msg">
+            <%= chat.message %>
+            <hr />
+            <div class="btn">
+                <form action="/chats/<%= chat._id %>/edit" method="get">
+                    <button>Edit</button>
+                </form>
+                <form action="/chats/<%= chat._id %>?_method=DELETE" method="post">
+                    <button>Delete</button>
+                </form>
+            </div>
+        </div>
+        <p>Received by <b><%= chat.to %></b></p>
+        <hr />
+        <p class="chat-info">
+            <b>Time: </b><%= chat.updated_at ? chat.updated_at.toString().split(" ")[4] : 'N/A' %>
+            <b>Date: </b><%= chat.updated_at ? chat.updated_at.toString().split(" ").slice(1, 4).join(" ") : 'N/A' %>
+        </p>
+    </div>
+    <br />
+    <% } %>
+</body>
+</html>
